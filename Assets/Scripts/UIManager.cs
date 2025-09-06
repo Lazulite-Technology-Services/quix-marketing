@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class UIManager : MonoBehaviour
 
     private int currentIndex = 0;
 
-    [SerializeField] private Button back, home;
+    [SerializeField] private Button back, home, pause, play;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,6 +25,8 @@ public class UIManager : MonoBehaviour
     {
         back.onClick.AddListener(Back);
         home.onClick.AddListener(Home);
+        pause.onClick.AddListener(Pause);
+        play.onClick.AddListener(Play);
 
         foreach (var item in buttons)
         {
@@ -31,7 +34,7 @@ public class UIManager : MonoBehaviour
 
             if (item.name != "home")
             {
-                Debug.Log($"{item.name}");  
+                //Debug.Log($"{item.name}");  
                 item.onClick.AddListener(() => OnButtonClicked(item));
             }
         }
@@ -47,9 +50,16 @@ public class UIManager : MonoBehaviour
         //Enable next screen
         Screens[currentIndex].SetActive(true);
 
-        if(currentIndex > 0)
+        if (currentIndex == 2)
+            //back.gameObject.SetActive(true);
+            back.interactable = true;
+        else
+            //back.gameObject.SetActive(false);
+            back.interactable = false;
+
+        if (currentIndex > 0)
         {
-            NavigationButtonGroup.SetActive(true);
+            NavigationButtonGroup.SetActive(true);            
         }
     }
 
@@ -83,6 +93,13 @@ public class UIManager : MonoBehaviour
         {
             NavigationButtonGroup.SetActive(false);
         }
+
+        if (currentIndex == 2)
+            //back.gameObject.SetActive(true);
+            back.interactable = true;
+        else
+            //back.gameObject.SetActive(false);
+            back.interactable = false;
     }
 
     private void Home()
@@ -96,5 +113,21 @@ public class UIManager : MonoBehaviour
         Screens[currentIndex].SetActive(true);
 
         NavigationButtonGroup.SetActive(false);
+    }
+
+    private void Pause()
+    {
+        pause.interactable = false;
+        play.interactable = true;
+
+        VideoHandler.instance.PauseOrPlayTheVideo();
+    }
+
+    private void Play()
+    {
+        play.interactable = false;
+        pause.interactable = true;
+
+        VideoHandler.instance.PauseOrPlayTheVideo();
     }
 }

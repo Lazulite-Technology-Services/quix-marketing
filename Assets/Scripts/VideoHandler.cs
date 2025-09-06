@@ -65,4 +65,17 @@ public class VideoHandler : MonoBehaviour
         player.Play();
         videoImage.DOColor(new Color(1, 1, 1, 1), tweenSpeed);
     }
+
+    public void PauseOrPlayTheVideo()
+    {
+        //if video player is playing pause it
+        if (player.isPlaying)
+        {
+            player.Pause(); 
+        }
+        else
+        {
+            player.Play();
+        }
+    }
 }
