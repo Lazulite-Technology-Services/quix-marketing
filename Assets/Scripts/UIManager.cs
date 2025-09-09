@@ -79,6 +79,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void ResetButtonStateImages()
+    {
+        foreach (var item in buttons)
+        {
+            if (item.name != "home")
+                item.GetComponent<Image>().sprite = item.GetComponent<ButtonData>().deselectedImage;
+        }
+    }
+
     private void Back()
     {
         //Disable current screen
@@ -113,6 +122,8 @@ public class UIManager : MonoBehaviour
         Screens[currentIndex].SetActive(true);
 
         NavigationButtonGroup.SetActive(false);
+
+        ResetButtonStateImages();
     }
 
     private void Pause()
